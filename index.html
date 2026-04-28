@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hub de Exercícios - Fluxo de Controle</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --medium: #f59e0b;
+            --hard: #dc2626;
+            --bg: #f8fafc;
+            --text: #1e293b;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border-bottom: 4px solid var(--primary);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .card h3 { margin: 0; font-size: 1.1rem; }
+        .card p { font-size: 0.8rem; color: #64748b; margin-top: 5px; }
+
+        /* Estilos por Dificuldade */
+        .card.medio { border-bottom-color: var(--medium); }
+        .card.medio h3 { color: #b45309; }
+
+        .card.dificil { border-bottom-color: var(--hard); }
+        .card.dificil h3 { color: #991b1b; }
+
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Painel de Exercícios</h1>
+        <p>Selecione um exercício para executar a lógica de Fluxo de Controle</p>
+    </header>
+
+    <div class="container" id="menu-hub">
+        </div>
+
+    <footer>
+        <p>Desenvolvido por Jotave #saudadesGrandPrix</p>
+    </footer>
+
+    <script src="fluxoDeControle.js"></script>
+
+    <script>
+        // Script para gerar os 20 botões dinamicamente
+        const hub = document.getElementById('menu-hub');
+        
+        for (let i = 1; i <= 20; i++) {
+            const card = document.createElement('div');
+            card.className = 'card';
+            let label = "Iniciante";
+
+            // Lógica de classificação solicitada
+            if (i >= 16 && i <= 18) {
+                card.classList.add('medio');
+                label = "Médio";
+            } else if (i >= 19) {
+                card.classList.add('dificil');
+                label = "Difícil";
+            }
+
+            card.innerHTML = `
+                <h3>Exercício ${i}</h3>
+                <p>${label}</p>
+            `;
+
+            // Ao clicar, chama a função correspondente no fluxoDeControle.js
+            card.onclick = () => {
+                const funcaoNome = `executarExercicio${i}`;
+                if (typeof window[funcaoNome] === 'function') {
+                    window[funcaoNome]();
+                } else {
+                    alert(`A função ${funcaoNome}() ainda não foi implementada no seu JS!`);
+                }
+            };
+
+            hub.appendChild(card);
+        }
+    </script>
+</body>
+</html>
